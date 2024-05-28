@@ -8,6 +8,9 @@ const JobSearch = () => {
     const [page, setPage] = useState(1); // Track the current page
     const loader = useRef(null);
 
+    const [search, setSearch] = useState("");
+    console.log("value : ", search)
+
     useEffect(() => {
         const fetchJobData = async () => {
             try {
@@ -57,9 +60,10 @@ const JobSearch = () => {
 
     return (
         <div>
-            <Filter />
+            <Filter setSearch={setSearch} />
             <div className="flex flex-wrap justify-around p-16">
                 {jobData.map((info, index) => {
+                    console.log(info)
                     return (
                         <JobCard companyName={info.companyName} 
                          jobRole={info.jobRole} 

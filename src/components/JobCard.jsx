@@ -6,7 +6,7 @@ const JobCard = ({companyName, logoUrl, jobRole, location, minExp, maxExp, minJd
                 <div className="m-1 mt-4 flex">
                     <div className="m-1">
                         <span className="border-2 border-gray-500 bg-gray-200 pb-1 rounded-sm">Logo</span>
-                        {/* <img src={logoUrl} alt="Logo" /> */}
+                        {/* <img src={logoUrl} alt={companyName} /> */}
                     </div>
                     <div className="m-1">
                         <div className="text-gray-600 font-semibold">{companyName}</div>
