@@ -1,31 +1,29 @@
 import { useState } from "react";
+import Select from 'react-select'
 
-const RolesOption = [{
-    category:"Engineering",
-    roles:["Backend", "Frontend", "FullStack"]
-}, {
-    category:"Design",
-    roles:["Designer", "Designer Manager"]
-}]
+const options = [
+    {value:"Backend", label:"Backend"},
+    {value:"Frontend", label:"Frontend"},
+    {value:"Full Stack", label:"Full Stack"},
+  ]
 
 const Role = () => {
-
-    const [display, setDisplay] = useState(false)
+    const [selectedOption, setSelectedOption] = useState([]);
+  
+    function handleChange(selectedOption){
+      setSelectedOption(selectedOption);
+    }
 
     return (
-        <div className="border-2 border-black">
-            <input type="text" className="border border-gray-400 p-2 rounded font-light text-sm w-40 m-1 mb-0" placeholder="Roles" name="role" id="" onClick={() => {setDisplay(!display)}} />
-            {display && <div className="m-1 shadow shadow-gray-600 rounded p-1 absolute bg-white w-40">
-                {RolesOption.map((info) => {
-                    return (
-                        <div>
-                        <ul className="font-semibold text-gray-600 p-1">{info.category}</ul>
-                        <ul>{info.roles.map((info) => <ul className="p-1 hover:bg-blue-100">{info}</ul>)}</ul>
-                        </div>
-                    )
-                })}
-            </div>}
-        </div>
+        <>
+        <Select
+               options={options}
+               value={selectedOption}
+               onChange={handleChange}
+               placeholder="Roles"
+               isMulti={true}
+            />
+        </>
     )
 }
 

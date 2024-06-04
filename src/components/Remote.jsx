@@ -1,9 +1,30 @@
+import { useState } from "react";
+import Select from 'react-select'
+
+const options = [
+    {value:"Remote", label:"Remote"},
+    {value:"Hybrid", label:"Hybrid"},
+    {value:"In-Office", label:"In-Office"},
+  ]
+
 const Remote = () => {
+    const [selectedOption, setSelectedOption] = useState([]);
+  
+    function handleChange(selectedOption){
+      setSelectedOption(selectedOption);
+    }
+
     return (
         <>
-            <input type="text" className="border border-gray-400 p-2 rounded font-light text-sm w-32 m-1" placeholder="Remote" name="remoteOnSite" id="" />
+        <Select
+               options={options}
+               value={selectedOption}
+               onChange={handleChange}
+               placeholder="Remote"
+               isMulti={true}
+            />
         </>
     )
 }
 
-export default Remote;
+export default Remote;    

@@ -1,6 +1,8 @@
-import { useState, useEffect, useRef } from 'react';
+import { useState, useEffect, useRef, createContext } from 'react';
 import Filter from "../components/Filter";
 import JobCard from "../components/JobCard";
+
+export const FilterContext = createContext();
 
 const JobSearch = () => {
 
@@ -8,8 +10,9 @@ const JobSearch = () => {
     const [page, setPage] = useState(1); // Track the current page
     const loader = useRef(null);
 
-    const [search, setSearch] = useState("");
-    console.log("value : ", search)
+    const [searchQuery, setSearchQuery] = useState("");
+    const [searchedData, setSearchedData] = useState([]);
+    console.log("Data : ", searchedData)
 
     useEffect(() => {
         const fetchJobData = async () => {
@@ -60,21 +63,37 @@ const JobSearch = () => {
 
     return (
         <div>
-            <Filter setSearch={setSearch} />
+            <FilterContext.Provider value={{ searchQuery, setSearchQuery, setSearchedData, jobData }}>
+                <Filter />
+            </FilterContext.Provider>
             <div className="flex flex-wrap justify-around p-16">
-                {jobData.map((info, index) => {
-                    console.log(info)
-                    return (
-                        <JobCard companyName={info.companyName} 
-                         jobRole={info.jobRole} 
-                         minJdSalary={info.minJdSalary == null ? 8 : info.minJdSalary} 
-                         maxJdSalary={info.maxJdSalary} 
-                         salaryCurrencyCode={info.salaryCurrencyCode} 
-                         location={info.location} 
-                         minExp={info.minExp == null ? 0 : info.minExp} 
-                />
-                    )
-                })}
+                {searchQuery.length > 0 ? (
+                    searchedData.map((info) => {
+                        return (
+                            <JobCard companyName={info.companyName}
+                                jobRole={info.jobRole}
+                                minJdSalary={info.minJdSalary == null ? 8 : info.minJdSalary}
+                                maxJdSalary={info.maxJdSalary}
+                                salaryCurrencyCode={info.salaryCurrencyCode}
+                                location={info.location}
+                                minExp={info.minExp == null ? 0 : info.minExp}
+                            />
+                        )
+                    })
+                ) : (
+                    jobData.map((info) => {
+                        return (
+                            <JobCard companyName={info.companyName}
+                                jobRole={info.jobRole}
+                                minJdSalary={info.minJdSalary == null ? 8 : info.minJdSalary}
+                                maxJdSalary={info.maxJdSalary}
+                                salaryCurrencyCode={info.salaryCurrencyCode}
+                                location={info.location}
+                                minExp={info.minExp == null ? 0 : info.minExp}
+                            />
+                        )
+                    })
+                )}
                 <div ref={loader} className="font-bold text-xl">Loading...</div>
             </div>
         </div>
